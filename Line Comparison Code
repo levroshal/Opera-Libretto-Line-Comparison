@@ -1,0 +1,72 @@
+#Pushkin_Text = open('Pushkin Full Text.txt', encoding='utf-8', mode='r')
+#text1 = Pushkin_Text.read()
+
+#Tchaik_Text = open('Complete Libretto.txt', encoding='utf-8', mode='r')
+#text2 = Tchaik_Text.read()
+
+import string
+
+#Generate Pushkin info
+
+def Line_Comparison_Generator(original, libretto):
+    with open(original, encoding='utf-8', mode='r') as file:
+        lines1 = lines1 = file.readlines()
+    for i in range(len(lines1)):
+        lines1[i] = lines1[i].split("\n")
+    for i in range(len(lines1)):
+        lines1[i]= [x.strip(' ') for x in lines1[i]]
+    Pushkin_List = []
+    
+    for i in range(len(lines1)):
+        for item in lines1[i]:
+            if not item == '':
+                Pushkin_List.append(item)
+    
+    alpha_Pushkin = []
+    for i in range(len(Pushkin_List)):
+        alpha_Pushkin.append(Pushkin_List[i].lower())
+    
+    translator = str.maketrans('', '', string.punctuation)
+    
+    for i in range(len(alpha_Pushkin)):
+        alpha_Pushkin[i] = alpha_Pushkin[i].translate(translator)
+    
+    #Generate Tchaik info
+    
+    
+    with open(libretto, encoding='utf-8', mode='r') as file:
+        lines2 = lines2 = file.readlines()
+    for i in range(len(lines2)):
+        lines2[i] = lines2[i].split("\n")
+    for i in range(len(lines2)):
+        lines2[i]= [x.strip(' ') for x in lines2[i]]
+    Libretto_List = []
+    
+    for i in range(len(lines2)):
+        for item in lines2[i]:
+            if not item == '':
+                Libretto_List.append(item)
+    
+    alpha_Tchaik = []
+    for i in range(len(Libretto_List)):
+        alpha_Tchaik.append(Libretto_List[i].lower())
+    
+    translator = str.maketrans('', '', string.punctuation)
+    
+    for i in range(len(alpha_Tchaik)):
+        alpha_Tchaik[i] = alpha_Tchaik[i].translate(translator)
+    
+    
+    #Comapre and Return
+    
+    Comparison_List = []
+    for item in alpha_Tchaik:
+        if item in alpha_Pushkin:
+            Comparison_List.append(Pushkin_List[alpha_Pushkin.index(item)])
+    
+    with open('Every Reused Line.txt', 'w') as file:
+        for item in Comparison_List:
+            file.write(item + '\n')
+
+Line_Comparison_Generator('Pushkin Full Text.txt','Complete Libretto.txt')
+    
